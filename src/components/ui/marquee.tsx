@@ -1,121 +1,712 @@
-import type { ComponentPropsWithoutRef } from "react";
+"use client";
 
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+import { useDirection } from "@/components/ui/direction";
+import { useComposedRefs } from "@/lib/compose-refs";
 import { cn } from "@/lib/utils";
 
-interface MarqueeProps extends ComponentPropsWithoutRef<"div"> {
-  className?: string;
-  /**
-   * Whether to reverse the animation direction
-   * @default false
-   */
-  reverse?: boolean;
-  /**
-   * Whether to pause the animation on hover
-   * @default false
-   */
-  pauseOnHover?: boolean;
-  /**
-   * Content to be displayed in the marquee
-   */
-  children: React.ReactNode;
-  /**
-   * Whether to animate vertically instead of horizontally
-   * @default false
-   */
-  vertical?: boolean;
-  /**
-   * Number of times to repeat the content
-   * @default 4
-   */
-  repeat?: number;
+const ROOT_NAME = "Marquee";
+const CONTENT_NAME = "MarqueeContent";
+
+type Side = "left" | "right" | "top" | "bottom";
+type Orientation = "horizontal" | "vertical";
+type Direction = "ltr" | "rtl";
+
+type RootElement = HTMLDivElement;
+type ContentElement = HTMLDivElement;
+
+interface Dimensions {
+  width: number;
+  height: number;
 }
 
-export function Marquee({
-  className,
-  reverse = false,
-  pauseOnHover = false,
-  children,
-  vertical = false,
-  repeat = 4,
-  ...props
-}: MarqueeProps) {
-  return (
-    <>
-      <style>
-        {`
-          @keyframes marquee {
-            from {
-              transform: translateX(0);
-            }
-            to {
-              transform: translateX(calc(-100% - var(--gap)));
-            }
-          }
+interface ElementDimensions {
+  rootSize: number;
+  contentSize: number;
+}
 
-          @keyframes marquee-vertical {
-            from {
-              transform: translateY(0);
-            }
-            to {
-              transform: translateY(calc(-100% - var(--gap)));
-            }
-          }
+function createResizeObserverStore() {
+  const listeners = new Set<() => void>();
+  let observer: ResizeObserver | null = null;
+  const elements = new Map<Element, Dimensions>();
+  const refCounts = new Map<Element, number>();
+  const isSupported = typeof ResizeObserver !== "undefined";
+  let notificationScheduled = false;
 
-          @keyframes scroll {
-            to {
-              transform: translate(calc(-50% - 0.5rem));
-            }
-          }
+  const snapshotCache = new WeakMap<
+    Element,
+    WeakMap<
+      Element,
+      { horizontal: ElementDimensions; vertical: ElementDimensions }
+    >
+  >();
 
-          .animate-marquee {
-            animation: marquee var(--duration) linear infinite;
-          }
+  function notify() {
+    if (notificationScheduled) return;
+    notificationScheduled = true;
+    queueMicrotask(() => {
+      notificationScheduled = false;
+      for (const callback of listeners) {
+        callback();
+      }
+    });
+  }
 
-          .animate-marquee-vertical {
-            animation: marquee-vertical var(--duration) linear infinite;
-          }
+  function cleanup() {
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+    elements.clear();
+    refCounts.clear();
+  }
 
-          .animate-reverse {
-            animation-direction: reverse !important;
-          }
+  function subscribe(callback: () => void) {
+    listeners.add(callback);
+    return () => {
+      listeners.delete(callback);
+      if (listeners.size === 0) {
+        cleanup();
+      }
+    };
+  }
 
-          .pause-on-hover:hover .animate-marquee,
-          .pause-on-hover:hover .animate-marquee-vertical {
-            animation-play-state: paused !important;
-          }
+  function getSnapshot(
+    rootElement: RootElement | null,
+    contentElement: ContentElement | null,
+    orientation: Orientation,
+  ): ElementDimensions | null {
+    if (!rootElement || !contentElement) return null;
 
-          .animate-scroll {
-            animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+    const rootDims = elements.get(rootElement);
+    const contentDims = elements.get(contentElement);
+
+    if (!rootDims || !contentDims) return null;
+
+    const rootSize =
+      orientation === "vertical" ? rootDims.height : rootDims.width;
+    const contentSize =
+      orientation === "vertical" ? contentDims.height : contentDims.width;
+
+    let rootCache = snapshotCache.get(rootElement);
+    if (!rootCache) {
+      rootCache = new WeakMap();
+      snapshotCache.set(rootElement, rootCache);
+    }
+
+    let contentCache = rootCache.get(contentElement);
+    if (!contentCache) {
+      contentCache = {
+        horizontal: { rootSize: -1, contentSize: -1 },
+        vertical: { rootSize: -1, contentSize: -1 },
+      };
+      rootCache.set(contentElement, contentCache);
+    }
+
+    const cached = contentCache[orientation];
+    if (cached.rootSize === rootSize && cached.contentSize === contentSize) {
+      return cached;
+    }
+
+    const snapshot = { rootSize, contentSize };
+    contentCache[orientation] = snapshot;
+    return snapshot;
+  }
+
+  function observe(
+    rootElement: RootElement | null,
+    contentElement: Element | null,
+  ) {
+    if (!isSupported || !rootElement || !contentElement) return;
+
+    if (!observer) {
+      observer = new ResizeObserver((entries) => {
+        let hasChanged = false;
+
+        for (const entry of entries) {
+          const element = entry.target;
+          const { width, height } = entry.contentRect;
+
+          const currentData = elements.get(element);
+
+          if (
+            !currentData ||
+            currentData.width !== width ||
+            currentData.height !== height
+          ) {
+            elements.set(element, { width, height });
+            hasChanged = true;
           }
-        `}
-      </style>
-      <div
-        {...props}
-        className={cn(
-          "group flex gap-(--gap) overflow-hidden p-2 [--duration:40s] [--gap:1rem]",
-          {
-            "flex-row": !vertical,
-            "flex-col": vertical,
-            "pause-on-hover": pauseOnHover,
-          },
+        }
+
+        if (hasChanged) {
+          notify();
+        }
+      });
+    }
+
+    refCounts.set(rootElement, (refCounts.get(rootElement) ?? 0) + 1);
+    refCounts.set(contentElement, (refCounts.get(contentElement) ?? 0) + 1);
+
+    observer.observe(rootElement);
+    observer.observe(contentElement);
+
+    const rootRect = rootElement.getBoundingClientRect();
+    const contentRect = contentElement.getBoundingClientRect();
+
+    const rootData = { width: rootRect.width, height: rootRect.height };
+    const contentData = {
+      width: contentRect.width,
+      height: contentRect.height,
+    };
+
+    elements.set(rootElement, rootData);
+    elements.set(contentElement, contentData);
+
+    if (
+      rootData.width > 0 &&
+      rootData.height > 0 &&
+      contentData.width > 0 &&
+      contentData.height > 0
+    ) {
+      notify();
+    }
+  }
+
+  function unobserve(
+    rootElement: RootElement | null,
+    contentElement: Element | null,
+  ) {
+    if (!observer || !rootElement || !contentElement) return;
+
+    const rootCount = (refCounts.get(rootElement) ?? 1) - 1;
+    const contentCount = (refCounts.get(contentElement) ?? 1) - 1;
+
+    if (rootCount <= 0) {
+      observer.unobserve(rootElement);
+      elements.delete(rootElement);
+      refCounts.delete(rootElement);
+    } else {
+      refCounts.set(rootElement, rootCount);
+    }
+
+    if (contentCount <= 0) {
+      observer.unobserve(contentElement);
+      elements.delete(contentElement);
+      refCounts.delete(contentElement);
+    } else {
+      refCounts.set(contentElement, contentCount);
+    }
+  }
+
+  return {
+    subscribe,
+    getSnapshot,
+    observe,
+    unobserve,
+  };
+}
+
+const resizeObserverStore = createResizeObserverStore();
+
+function useResizeObserverStore(
+  rootRef: React.RefObject<RootElement | null>,
+  contentRef: React.RefObject<ContentElement | null>,
+  orientation: Orientation,
+): ElementDimensions | null {
+  const onSubscribe = React.useCallback(
+    (callback: () => void) => resizeObserverStore.subscribe(callback),
+    [],
+  );
+
+  const getSnapshot = React.useCallback(
+    () =>
+      resizeObserverStore.getSnapshot(
+        rootRef.current,
+        contentRef.current,
+        orientation,
+      ),
+    [rootRef, contentRef, orientation],
+  );
+
+  return React.useSyncExternalStore(onSubscribe, getSnapshot, getSnapshot);
+}
+
+interface MarqueeContextValue {
+  side: Side;
+  orientation: Orientation;
+  dir: Direction;
+  speed: number;
+  loopCount: number;
+  contentRef: React.RefObject<ContentElement | null>;
+  rootRef: React.RefObject<RootElement | null>;
+  autoFill: boolean;
+  pauseOnHover: boolean;
+  pauseOnKeyboard: boolean;
+  reverse: boolean;
+  paused: boolean;
+}
+
+const MarqueeContext = React.createContext<MarqueeContextValue | null>(null);
+
+function useMarqueeContext(consumerName: string) {
+  const context = React.useContext(MarqueeContext);
+  if (!context) {
+    throw new Error(`\`${consumerName}\` must be used within \`${ROOT_NAME}\``);
+  }
+  return context;
+}
+
+interface MarqueeProps
+  extends React.ComponentProps<"div">, useRender.ComponentProps<"div"> {
+  side?: Side;
+  dir?: Direction;
+  speed?: number;
+  delay?: number;
+  loopCount?: number;
+  gap?: string | number;
+  autoFill?: boolean;
+  pauseOnHover?: boolean;
+  pauseOnKeyboard?: boolean;
+  reverse?: boolean;
+}
+
+function Marquee(props: MarqueeProps) {
+  const {
+    side = "left",
+    dir: dirProp,
+    speed = 50,
+    delay = 0,
+    loopCount = 0,
+    gap = "1rem",
+    render,
+    autoFill = false,
+    pauseOnHover = false,
+    pauseOnKeyboard = false,
+    reverse = false,
+    className,
+    style: styleProp,
+    ref,
+    ...marqueeProps
+  } = props;
+
+  const orientation: Orientation =
+    side === "top" || side === "bottom" ? "vertical" : "horizontal";
+
+  const contextDir = useDirection();
+  const dir = dirProp ?? contextDir;
+
+  const rootRef = React.useRef<RootElement>(null);
+  const contentRef = React.useRef<ContentElement>(null);
+  const composedRef = useComposedRefs(ref, rootRef);
+
+  const [paused, setPaused] = React.useState(false);
+
+  const onKeyDown = React.useCallback(
+    (event: React.KeyboardEvent) => {
+      if (pauseOnKeyboard && event.key === " ") {
+        event.preventDefault();
+        setPaused((prev) => !prev);
+      }
+    },
+    [pauseOnKeyboard],
+  );
+
+  const dimensions = useResizeObserverStore(rootRef, contentRef, orientation);
+
+  const duration = React.useMemo(() => {
+    const safeSpeed = Math.max(0.001, speed);
+
+    if (!dimensions) {
+      const defaultDistance = autoFill ? 1000 : 2000;
+      return defaultDistance / safeSpeed;
+    }
+
+    const { rootSize, contentSize } = dimensions;
+
+    if (autoFill) {
+      const multiplier =
+        contentSize < rootSize ? Math.ceil(rootSize / contentSize) : 1;
+      return (contentSize * multiplier) / safeSpeed;
+    } else {
+      return contentSize < rootSize
+        ? rootSize / safeSpeed
+        : contentSize / safeSpeed;
+    }
+  }, [dimensions, speed, autoFill]);
+
+  const style = React.useMemo<React.CSSProperties>(
+    () => ({
+      "--marquee-duration": `${duration}s`,
+      "--marquee-gap": gap,
+      "--marquee-delay": `${delay}s`,
+      "--marquee-loop-count":
+        loopCount === 0 || loopCount === Infinity
+          ? "infinite"
+          : loopCount.toString(),
+      ...styleProp,
+    }),
+    [duration, gap, delay, loopCount, styleProp],
+  );
+
+  const contextValue = React.useMemo<MarqueeContextValue>(
+    () => ({
+      side,
+      orientation,
+      dir,
+      speed,
+      loopCount,
+      contentRef,
+      rootRef,
+      autoFill,
+      paused,
+      pauseOnHover,
+      pauseOnKeyboard,
+      reverse,
+    }),
+    [
+      side,
+      orientation,
+      dir,
+      speed,
+      loopCount,
+      autoFill,
+      paused,
+      pauseOnHover,
+      pauseOnKeyboard,
+      reverse,
+    ],
+  );
+
+  const element = useRender({
+    defaultTagName: "div",
+    props: mergeProps<"div">(
+      {
+        role: "marquee" as React.AriaRole,
+        "aria-live": "off",
+        dir,
+        tabIndex: pauseOnKeyboard ? 0 : undefined,
+        ref: composedRef,
+        className: cn(
+          "relative flex overflow-hidden motion-reduce:animate-none",
+          orientation === "vertical" && "h-full flex-col",
+          orientation === "horizontal" && "w-full",
+          paused && "**:paused",
+          pauseOnHover && "group",
+          pauseOnKeyboard &&
+            "rounded-md focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
           className,
+        ),
+        style,
+        onKeyDown: pauseOnKeyboard ? onKeyDown : undefined,
+      },
+      marqueeProps,
+    ),
+    render,
+    state: {
+      slot: "marquee",
+      orientation,
+    },
+  });
+
+  return (
+    <MarqueeContext.Provider value={contextValue}>
+      <div data-slot="marquee-wrapper" className="font-heading grid">
+        {element}
+      </div>
+    </MarqueeContext.Provider>
+  );
+}
+
+const marqueeContentVariants = cva(
+  "flex min-w-full shrink-0 gap-(--marquee-gap) will-change-transform motion-reduce:animate-none",
+  {
+    variants: {
+      side: {
+        left: "animate-marquee-left",
+        right: "animate-marquee-right",
+        top: "min-h-full min-w-auto animate-marquee-up flex-col",
+        bottom: "min-h-full min-w-auto animate-marquee-down flex-col",
+      },
+      dir: {
+        ltr: "",
+        rtl: "",
+      },
+      pauseOnHover: {
+        true: "group-hover:[animation-play-state:paused]",
+        false: "",
+      },
+      reverse: {
+        true: "[animation-direction:reverse]",
+        false: "",
+      },
+    },
+    compoundVariants: [
+      {
+        side: "left",
+        dir: "rtl",
+        className: "animate-marquee-left-rtl",
+      },
+      {
+        side: "right",
+        dir: "rtl",
+        className: "animate-marquee-right-rtl",
+      },
+    ],
+    defaultVariants: {
+      side: "left",
+      dir: "ltr",
+      pauseOnHover: false,
+      reverse: false,
+    },
+  },
+);
+
+interface MarqueeContentProps
+  extends React.ComponentProps<"div">, useRender.ComponentProps<"div"> {}
+
+function MarqueeContent(props: MarqueeContentProps) {
+  const {
+    className,
+    render,
+    ref,
+    children,
+    style: styleProp,
+    ...contentProps
+  } = props;
+
+  const context = useMarqueeContext(CONTENT_NAME);
+  const composedRef = useComposedRefs(ref, context.contentRef);
+
+  const isVertical = context.orientation === "vertical";
+  const isRtl = context.dir === "rtl";
+
+  const dimensions = useResizeObserverStore(
+    context.rootRef,
+    context.contentRef,
+    context.orientation,
+  );
+
+  React.useEffect(() => {
+    if (context.rootRef.current && context.contentRef.current) {
+      resizeObserverStore.observe(
+        context.rootRef.current,
+        context.contentRef.current,
+      );
+
+      return () => {
+        resizeObserverStore.unobserve(
+          context.rootRef.current,
+          context.contentRef.current,
+        );
+      };
+    }
+  }, [context.rootRef, context.contentRef]);
+
+  const multiplier = React.useMemo(() => {
+    if (!context.autoFill || !dimensions) return 1;
+
+    const { rootSize, contentSize } = dimensions;
+    if (contentSize === 0) return 1;
+
+    return contentSize < rootSize ? Math.ceil(rootSize / contentSize) : 1;
+  }, [context.autoFill, dimensions]);
+
+  const onMultipliedChildrenRender = React.useCallback(
+    (count: number) => {
+      const copyIds = Array.from(
+        { length: Math.max(0, count) },
+        (_, index) => `marquee-copy-${index + 1}`,
+      );
+
+      return copyIds.map((copyId) => (
+        <React.Fragment key={copyId}>{children}</React.Fragment>
+      ));
+    },
+    [children],
+  );
+
+  const style = React.useMemo(
+    () => ({
+      ...styleProp,
+      animationDuration: "var(--marquee-duration)",
+      animationDelay: "var(--marquee-delay)",
+      animationIterationCount: "var(--marquee-loop-count)",
+      animationDirection: context.reverse ? "reverse" : "normal",
+    }),
+    [styleProp, context.reverse],
+  );
+
+  const contentClassName = cn(
+    marqueeContentVariants({
+      side: context.side,
+      dir: context.dir,
+      pauseOnHover: context.pauseOnHover,
+      reverse: context.reverse,
+      className,
+    }),
+    isVertical && "flex-col",
+    isVertical
+      ? "mb-(--marquee-gap)"
+      : isRtl
+        ? "ml-(--marquee-gap)"
+        : "mr-(--marquee-gap)",
+  );
+
+  const innerContent = (
+    <>
+      <div
+        ref={composedRef}
+        className={cn(
+          "flex shrink-0 gap-(--marquee-gap)",
+          isVertical && "flex-col",
         )}
       >
-        {Array(repeat)
-          .fill(0)
-          .map((_, i) => (
-            <div
-              key={i}
-              className={cn("flex shrink-0 justify-around gap-(--gap)", {
-                "animate-marquee flex-row": !vertical,
-                "animate-marquee-vertical flex-col": vertical,
-                "animate-reverse": reverse,
-              })}
-            >
-              {children}
-            </div>
-          ))}
+        {children}
+      </div>
+      {onMultipliedChildrenRender(multiplier - 1)}
+    </>
+  );
+
+  const visibleElement = useRender({
+    defaultTagName: "div",
+    props: mergeProps<"div">(
+      {
+        className: contentClassName,
+        style,
+        children: innerContent,
+      },
+      contentProps,
+    ),
+    render,
+    state: {
+      slot: "marquee-content",
+      orientation: context.orientation,
+    },
+  });
+
+  return (
+    <>
+      {visibleElement}
+      <div
+        role="presentation"
+        aria-hidden="true"
+        {...contentProps}
+        style={style}
+        className={cn(
+          marqueeContentVariants({
+            side: context.side,
+            dir: context.dir,
+            pauseOnHover: context.pauseOnHover,
+            reverse: context.reverse,
+          }),
+          "font-heading tracking-wide",
+          isVertical && "flex-col",
+        )}
+      >
+        {onMultipliedChildrenRender(multiplier)}
       </div>
     </>
   );
 }
+
+interface MarqueeItemProps
+  extends React.ComponentProps<"div">, useRender.ComponentProps<"div"> {}
+
+function MarqueeItem({ className, render, ...itemProps }: MarqueeItemProps) {
+  return useRender({
+    defaultTagName: "div",
+    props: mergeProps<"div">(
+      { className: cn("shrink-0 font-heading tracking-wide", className) },
+      itemProps,
+    ),
+    render,
+
+    state: { slot: "marquee-item" },
+  });
+}
+
+interface MarqueeEdgeProps
+  extends
+    VariantProps<typeof marqueeEdgeVariants>,
+    React.ComponentProps<"div">,
+    useRender.ComponentProps<"div"> {}
+
+const marqueeEdgeVariants = cva("pointer-events-none absolute z-10", {
+  variants: {
+    side: {
+      left: "top-0 left-0 h-full bg-linear-to-r from-background to-transparent",
+      right:
+        "top-0 right-0 h-full bg-linear-to-l from-background to-transparent",
+      top: "top-0 left-0 w-full bg-linear-to-b from-background to-transparent",
+      bottom:
+        "bottom-0 left-0 w-full bg-linear-to-t from-background to-transparent",
+    },
+    size: {
+      default: "",
+      sm: "",
+      lg: "",
+    },
+  },
+  compoundVariants: [
+    {
+      side: ["left", "right"],
+      size: "default",
+      className: "w-1/4",
+    },
+    {
+      side: ["left", "right"],
+      size: "sm",
+      className: "w-1/6",
+    },
+    {
+      side: ["left", "right"],
+      size: "lg",
+      className: "w-1/3",
+    },
+    {
+      side: ["top", "bottom"],
+      size: "default",
+      className: "h-1/4",
+    },
+    {
+      side: ["top", "bottom"],
+      size: "sm",
+      className: "h-1/6",
+    },
+    {
+      side: ["top", "bottom"],
+      size: "lg",
+      className: "h-1/3",
+    },
+  ],
+  defaultVariants: {
+    size: "default",
+  },
+});
+
+function MarqueeEdge({
+  side,
+  size,
+  className,
+  render,
+  ...edgeProps
+}: MarqueeEdgeProps) {
+  return useRender({
+    defaultTagName: "div",
+    props: mergeProps<"div">(
+      { className: cn(marqueeEdgeVariants({ side, size, className })) },
+      edgeProps,
+    ),
+    render,
+    state: {
+      slot: "marquee-edge",
+      size: size ?? "default",
+    },
+  });
+}
+
+export { Marquee, MarqueeContent, MarqueeEdge, MarqueeItem, type MarqueeProps };

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
+import { DynaPuff, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { SocialLinks } from "@/components/social-links";
@@ -13,6 +13,11 @@ const spaceGroteskHeading = Space_Grotesk({
 const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+});
+
+const dynaPuff = DynaPuff({
+  subsets: ["latin"],
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -34,6 +39,7 @@ export default function RootLayout({
         "font-sans",
         ibmPlexSans.variable,
         spaceGroteskHeading.variable,
+        dynaPuff.variable,
       )}
     >
       <body className="flex min-h-full flex-col">

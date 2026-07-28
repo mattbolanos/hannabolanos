@@ -52,20 +52,23 @@ function MobileNavigation({
           aria-controls={menuId}
           aria-expanded={isOpen}
           aria-label={isOpen ? "Close menu" : "Open menu"}
-          className="cursor-pointer md:hidden"
+          className={cn(
+            "cursor-pointer md:hidden",
+            isOpen && "text-foreground",
+          )}
           onClick={toggleOpen}
           type="button"
         >
           <span aria-hidden="true" className="relative block size-5">
             <span
               className={cn(
-                "bg-foreground absolute top-1/2 left-1/2 h-0.5 w-5 -translate-x-1/2 -translate-y-1 rounded-full transition-transform duration-200 ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none",
+                "absolute top-1/2 left-1/2 h-0.5 w-5 -translate-x-1/2 -translate-y-1 rounded-full bg-current transition-transform duration-200 ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none",
                 isOpen && "translate-y-0 -rotate-45",
               )}
             />
             <span
               className={cn(
-                "bg-foreground absolute top-1/2 left-1/2 h-0.5 w-5 -translate-x-1/2 translate-y-1 rounded-full transition-transform duration-200 ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none",
+                "absolute top-1/2 left-1/2 h-0.5 w-5 -translate-x-1/2 translate-y-1 rounded-full bg-current transition-transform duration-200 ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none",
                 isOpen && "translate-y-0 rotate-45",
               )}
             />
@@ -77,7 +80,7 @@ function MobileNavigation({
         id={menuId}
         aria-hidden={!isOpen}
         className={cn(
-          "pointer-events-none invisible fixed inset-0 z-30 bg-[#f1f1ef] opacity-0 transition-[opacity,visibility] duration-250 ease-out motion-reduce:transition-none",
+          "text-foreground pointer-events-none invisible fixed inset-0 z-30 bg-[#f1f1ef] opacity-0 transition-[opacity,visibility] duration-250 ease-out motion-reduce:transition-none",
           isOpen && "pointer-events-auto visible opacity-100",
         )}
       >

@@ -1,7 +1,11 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { HBLogo } from "@/components/logo";
 import { DesktopNavigation } from "@/components/navigation/desktop";
 import { MobileNavigation } from "@/components/navigation/mobile";
 import { SocialLinks } from "@/components/social-links";
+import { cn } from "@/lib/utils";
 
 interface RouteItem {
   href: string;
@@ -15,8 +19,18 @@ const ROUTES: RouteItem[] = [
 ];
 
 function Header() {
+  const pathname = usePathname();
+  const isAboutPage = pathname === "/about";
+
   return (
-    <header className="font-heading md:bg-background/60 bg-background sticky top-0 z-20 md:backdrop-blur-2xl">
+    <header
+      className={cn(
+        "font-heading z-20",
+        isAboutPage
+          ? "absolute inset-x-0 top-0 bg-transparent text-white"
+          : "bg-background sticky top-0 md:bg-background/60 md:backdrop-blur-2xl",
+      )}
+    >
       <div className="mx-auto hidden max-w-7xl items-center px-5 py-7 md:flex">
         <div className="flex min-w-0 flex-1 justify-start">
           <DesktopNavigation routes={ROUTES} />
