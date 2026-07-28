@@ -12,14 +12,16 @@ export function DesktopNavigation({ routes }: { routes: RouteItem[] }) {
     <div className="hidden md:flex">
       <ul className="flex items-center gap-x-6">
         {routes.map((route) => (
-          <li
-            key={route.href}
-            className={cn(
-              pathname === route.href && "underline",
-              "underline-offset-6 hover:underline",
-            )}
-          >
-            <Link href={route.href}>{route.name}</Link>
+          <li key={route.href}>
+            <Link
+              href={route.href}
+              className={cn(
+                "underline-offset-6 transition-opacity duration-150 ease-[ease] hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none",
+                pathname === route.href && "underline",
+              )}
+            >
+              {route.name}
+            </Link>
           </li>
         ))}
       </ul>
