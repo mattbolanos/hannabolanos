@@ -14,7 +14,7 @@ interface ImageGridProps {
 function ImageGrid({ ariaLabel, items }: ImageGridProps) {
   return (
     <section aria-label={ariaLabel} className="grid gap-4 md:grid-cols-2">
-      {items.map((item) => (
+      {items.map((item, index) => (
         <figure
           key={item.image.src}
           className="group bg-muted relative isolate aspect-4/3 overflow-hidden"
@@ -23,8 +23,9 @@ function ImageGrid({ ariaLabel, items }: ImageGridProps) {
             src={item.image}
             alt={item.alt}
             fill
+            loading={index < 4 ? "eager" : "lazy"}
             placeholder="blur"
-            sizes="(min-width: 768px) 50vw, 100vw"
+            sizes="(min-width: 1280px) 612px, (min-width: 768px) calc(50vw - 1.75rem), calc(100vw - 2.5rem)"
             className="rounded-sm object-cover"
           />
 
