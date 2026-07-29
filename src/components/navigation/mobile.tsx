@@ -46,7 +46,7 @@ function MobileNavigation({
   return (
     <div className="md:hidden">
       <div className="relative z-40 flex h-16 items-center justify-between px-5">
-        {logo}
+        <div className={cn(isOpen && "text-foreground")}>{logo}</div>
 
         <button
           aria-controls={menuId}

@@ -13,41 +13,49 @@ const BRAND_WORK = [
     title: "Ritual",
     image: ritualChocolate,
     alt: "Ritual chocolate protein package on a brown studio backdrop",
+    href: "/brandwork/chocolate",
   },
   {
     title: "Ritual",
     image: ritual,
     alt: "Woman holding a Ritual supplement bottle in a bright kitchen",
+    href: "/brandwork/ritual",
   },
   {
     title: "Liquid I.V.",
     image: liquidIv,
     alt: "Liquid I.V. hydration multiplier packaging held outdoors",
+    href: "/brandwork/liquidiv",
   },
   {
     title: "Starbucks",
     image: starbucks,
     alt: "Starbucks brand mark on a deep green background",
+    href: "/brandwork/starbucks",
   },
   {
     title: "Amazon",
     image: amazonPrimeDay,
     alt: "Amazon Prime Day campaign artwork",
+    href: "/brandwork/amazon",
   },
   {
     title: "Pacifico",
     image: pacifico,
     alt: "Pacifico campaign scene by the water",
+    href: "/brandwork/pacifico",
   },
   {
     title: "LEGO",
     image: lego,
     alt: "LEGO editorial campaign artwork",
+    href: "/brandwork/lego",
   },
   {
     title: "McDonald's",
     image: mcdonalds,
     alt: "McDonald's campaign artwork",
+    href: "/brandwork/mcdonalds",
   },
 ] satisfies readonly ImageGridItem[];
 

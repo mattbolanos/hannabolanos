@@ -12,31 +12,37 @@ const JOURNALISM = [
     title: "Meditations on Loneliness",
     image: meditationsOnLoneliness,
     alt: "Meditations on Loneliness",
+    href: "/journalism/loneliness",
   },
   {
     title: "Dating App Burnout",
     image: datingAppBurnout,
     alt: "Dating App Burnout",
+    href: "/journalism/burnout",
   },
   {
     title: "Surviving Jeffrey Epstein",
     image: survivingJeffreyEpstein,
     alt: "Surviving Jeffrey Epstein",
+    href: "/journalism/epstein",
   },
   {
     title: "An Old Friend",
     image: anOldFriend,
     alt: "An Old Friend",
+    href: "/journalism/oldfriend",
   },
   {
     title: "Cuban Sandwich War",
     image: cubanSandwichWar,
     alt: "Cuban Sandwich War",
+    href: "/journalism/cuban",
   },
   {
     title: "Kentucky Fried Flan",
     image: kentuckyFriedFlan,
     alt: "Kentucky Fried Flan",
+    href: "/journalism/flan",
   },
 ] satisfies readonly ImageGridItem[];
 

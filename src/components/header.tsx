@@ -20,13 +20,16 @@ const ROUTES: RouteItem[] = [
 
 function Header() {
   const pathname = usePathname();
-  const isAboutPage = pathname === "/about";
+  const isOverlayPage =
+    pathname === "/about" ||
+    pathname.startsWith("/brandwork/") ||
+    pathname.startsWith("/journalism/");
 
   return (
     <header
       className={cn(
         "font-heading z-20",
-        isAboutPage
+        isOverlayPage
           ? "absolute inset-x-0 top-0 bg-transparent text-white"
           : "bg-background sticky top-0 md:bg-background/60 md:backdrop-blur-2xl",
       )}
