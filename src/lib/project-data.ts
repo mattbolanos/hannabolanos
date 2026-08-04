@@ -52,6 +52,7 @@ interface GalleryBrandProject {
   headline: string;
   date: string;
   summary: string;
+  wavySeparators?: boolean;
   groups: readonly GalleryGroup[];
   team?: readonly string[];
   theme: ProjectTheme;
@@ -208,6 +209,7 @@ const BRAND_PROJECTS = [
     title: "Ritual",
     headline: "Chocolate Protein",
     date: "November 2025",
+    wavySeparators: true,
     summary:
       "Introducing Ritual’s plant-based, traceably sourced protein—now in rich, creamy chocolate. Whether you’re dominating the court, or just trying to make it until lunchtime, we’re powering your every serve. Because no one should have to choose between essential quality and great taste.",
     groups: [
@@ -309,6 +311,7 @@ const BRAND_PROJECTS = [
     title: "Ritual",
     headline: "In The Wild",
     date: "April 2024–May 2025",
+    wavySeparators: true,
     summary:
       "A fresh, sunny, lo-fi shoot of various Ritual products captured in an east-side Los Angeles home. Content has been used across email marketing, organic social, growth advertising, collateral, Ritual.com, PR and company events.",
     groups: [

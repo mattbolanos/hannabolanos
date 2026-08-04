@@ -11,9 +11,6 @@ function JournalismProjectPage({
   previousProject?: JournalismProject;
   project: JournalismProject;
 }) {
-  const hasVisibleHeroImage =
-    project.slug === "epstein" || project.slug === "oldfriend";
-
   return (
     <article className="relative left-1/2 w-screen -translate-x-1/2 bg-[#253551] text-white">
       <header
@@ -21,22 +18,18 @@ function JournalismProjectPage({
           project.heroTone === "navy" ? "bg-[#253551]" : "bg-black"
         }`}
       >
-        {hasVisibleHeroImage ? (
-          <Image
-            alt={project.image.alt}
-            className="-z-20 object-cover"
-            fill
-            preload
-            sizes="100vw"
-            src={project.image.src}
-          />
-        ) : null}
-        {hasVisibleHeroImage ? (
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-black/20"
-          />
-        ) : null}
+        <Image
+          alt={project.image.alt}
+          className="-z-20 object-cover"
+          fill
+          preload
+          sizes="100vw"
+          src={project.image.src}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-black/20"
+        />
 
         <h1 className="font-heading max-w-6xl text-[clamp(2.7rem,4.6vw,4.6rem)] leading-[1.04] font-semibold tracking-[0.02em] uppercase">
           {project.title}

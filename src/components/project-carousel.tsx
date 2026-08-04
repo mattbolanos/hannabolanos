@@ -25,20 +25,20 @@ function ProjectCarousel({ ariaLabel, items, variant }: ProjectCarouselProps) {
     <Carousel
       aria-label={ariaLabel}
       className={cn(
-        "relative left-1/2 w-screen -translate-x-1/2",
+        "relative left-1/2 w-screen -translate-x-1/2 px-6 md:px-0",
         !isPhotoRail && "lg:w-[calc(100vw-6rem)]",
       )}
       opts={{ align: "start", loop: true }}
     >
-      <CarouselContent className="-ml-4 md:-ml-7">
+      <CarouselContent className="ml-0 md:-ml-7">
         {carouselItems.map((item, index) => (
           <CarouselItem
             aria-label={`${(index % items.length) + 1} of ${items.length}: ${item.category ?? item.alt}`}
             className={cn(
-              "pl-4 md:pl-7",
+              "basis-full pl-0 md:pl-7",
               isPhotoRail
-                ? "basis-[84%] md:basis-[46%] lg:basis-[31%]"
-                : "basis-[84%] md:basis-1/2 lg:basis-1/3",
+                ? "md:basis-[46%] lg:basis-[31%]"
+                : "md:basis-1/2 lg:basis-1/3",
             )}
             key={`${item.src}-${index}`}
           >
@@ -50,8 +50,10 @@ function ProjectCarousel({ ariaLabel, items, variant }: ProjectCarouselProps) {
               }}
             />
 
+            <div aria-hidden="true" className="h-28 md:hidden" />
+
             {isPhotoRail ? null : (
-              <div className="pt-5">
+              <div className="md:pt-5">
                 {item.category ? (
                   <p className="font-display text-[clamp(2.75rem,5vw,5rem)] leading-[0.85] tracking-[-0.035em]">
                     {item.category}
@@ -73,14 +75,21 @@ function ProjectCarousel({ ariaLabel, items, variant }: ProjectCarouselProps) {
         ))}
       </CarouselContent>
 
-      <CarouselPrevious
-        aria-label={`Previous ${ariaLabel} item`}
-        className="top-[40%] bottom-auto left-5 my-0 -translate-y-1/2 md:left-[3vw]"
-      />
-      <CarouselNext
-        aria-label={`Next ${ariaLabel} item`}
-        className="top-[40%] right-5 bottom-auto my-0 -translate-y-1/2 md:right-[3vw]"
-      />
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-x-0 z-10 flex justify-center gap-4 md:contents",
+          isPhotoRail ? "top-[calc(100vw-1rem)]" : "top-[calc(133.333vw-2rem)]",
+        )}
+      >
+        <CarouselPrevious
+          aria-label={`Previous ${ariaLabel} item`}
+          className="pointer-events-auto static inset-auto m-0 translate-y-0 md:absolute md:top-[40%] md:bottom-auto md:left-[3vw] md:-translate-y-1/2"
+        />
+        <CarouselNext
+          aria-label={`Next ${ariaLabel} item`}
+          className="pointer-events-auto static inset-auto m-0 translate-y-0 md:absolute md:top-[40%] md:right-[3vw] md:bottom-auto md:-translate-y-1/2"
+        />
+      </div>
     </Carousel>
   );
 }

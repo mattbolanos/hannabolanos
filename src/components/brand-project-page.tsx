@@ -36,7 +36,7 @@ function ProjectDetails({ project }: { project: CaseStudyBrandProject }) {
               className="group border-t border-[#253551]/55"
               key={section.title}
             >
-              <summary className="flex min-h-14 cursor-pointer list-none items-center gap-4 py-4 font-heading text-lg font-medium [&::-webkit-details-marker]:hidden">
+              <summary className="font-heading flex min-h-14 cursor-pointer list-none items-center gap-4 py-4 text-lg font-medium [&::-webkit-details-marker]:hidden">
                 <span
                   aria-hidden="true"
                   className="text-3xl font-light transition-transform duration-150 group-open:rotate-45 motion-reduce:transition-none"
@@ -54,7 +54,7 @@ function ProjectDetails({ project }: { project: CaseStudyBrandProject }) {
           ))}
 
           <details className="group border-y border-[#253551]/55">
-            <summary className="flex min-h-14 cursor-pointer list-none items-center gap-4 py-4 font-heading text-lg font-medium [&::-webkit-details-marker]:hidden">
+            <summary className="font-heading flex min-h-14 cursor-pointer list-none items-center gap-4 py-4 text-lg font-medium [&::-webkit-details-marker]:hidden">
               <span
                 aria-hidden="true"
                 className="text-3xl font-light transition-transform duration-150 group-open:rotate-45 motion-reduce:transition-none"
@@ -101,6 +101,7 @@ function CaseStudyHero({ project }: { project: CaseStudyBrandProject }) {
         )}
         fill
         preload
+        loading="eager"
         sizes="100vw"
         src={project.heroImage.src}
       />
@@ -185,7 +186,7 @@ function StarbucksMedia({ project }: { project: CaseStudyBrandProject }) {
     <section className="bg-[#253551] px-6 py-16 text-[#253551] md:px-[11vw] md:py-[6vw]">
       <div className="mx-auto grid max-w-[72rem] gap-8 md:grid-cols-2 md:gap-[8vw]">
         <div className="flex flex-col justify-center">
-          <blockquote className="rounded-3xl bg-[#c2f665] p-8 font-heading text-[clamp(2rem,3.1vw,3.1rem)] leading-[1.25] shadow-[inset_0_0_0_1px_oklch(0_0_0/0.1)] md:p-10">
+          <blockquote className="font-heading rounded-3xl bg-[#c2f665] p-8 text-[clamp(2rem,3.1vw,3.1rem)] leading-[1.25] shadow-[inset_0_0_0_1px_oklch(0_0_0/0.1)] md:p-10">
             “{project.quote}”
             <footer className="mt-5 text-right text-lg font-semibold uppercase">
               — {project.quoteAttribution}
@@ -196,7 +197,7 @@ function StarbucksMedia({ project }: { project: CaseStudyBrandProject }) {
             <div className="mt-8 grid grid-cols-2 gap-4">
               {project.links.map((link, index) => (
                 <a
-                  className="inline-flex min-h-16 items-center justify-center rounded-full bg-white px-5 text-center font-heading transition-transform duration-150 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white motion-reduce:transition-none"
+                  className="font-heading inline-flex min-h-16 items-center justify-center rounded-full bg-white px-5 text-center transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:scale-[0.96] motion-reduce:transition-none"
                   href={link.href}
                   key={link.href}
                   rel="noreferrer"
@@ -246,8 +247,8 @@ function CaseStudyProjectPage({
         <StarbucksMedia project={project} />
       ) : (
         <section className="bg-[#253551] px-6 py-14 text-white md:px-[3vw] md:py-[4.5vw]">
-          <h2 className="mx-auto mb-12 max-w-[70rem] text-center font-heading text-[clamp(2rem,3.2vw,3rem)] leading-[1.35] font-bold uppercase">
-            <span className="box-decoration-clone bg-white px-2 py-0.5 text-[#253551]">
+          <h2 className="font-heading mx-auto mb-12 max-w-[70rem] text-center text-[clamp(2rem,3.2vw,3rem)] leading-[1.35] font-bold uppercase">
+            <span className="bg-white box-decoration-clone px-2 py-0.5 text-[#253551]">
               “{project.tagline}”
             </span>
           </h2>
@@ -376,6 +377,20 @@ function GalleryProjectPage({
   );
   const photos = photoGroup?.media.filter(isProjectImage) ?? [];
   const sourceItems = sourceGroup?.media.filter(isProjectImage) ?? [];
+  const informationColor =
+    project.slug === "chocolate"
+      ? project.theme.separator
+      : project.theme.surface;
+  const informationDate =
+    project.slug === "ritual" ? "April 2024" : project.date;
+  const informationHeadingSize =
+    project.slug === "chocolate"
+      ? "text-[clamp(2.75rem,4.2vw,4.75rem)]"
+      : "text-[clamp(3.5rem,7.5vw,8.5rem)]";
+  const separator = {
+    color: project.theme.separator,
+    wavy: project.wavySeparators,
+  };
 
   return (
     <article className="relative left-1/2 w-screen -translate-x-1/2 bg-[#f1f1ef] text-[#171717]">
@@ -390,89 +405,78 @@ function GalleryProjectPage({
               variant="photos"
             />
           </section>
-          <ProjectSeparator color={project.theme.separator} />
+          <ProjectSeparator {...separator} />
         </>
       ) : null}
 
-      <section className="bg-[#f1f1ef] px-6 py-16 md:px-[11vw] md:py-[7vw]">
-        {project.slug === "chocolate" ? (
-          <div
-            className="mx-auto grid max-w-[88rem] gap-16 md:grid-cols-2 md:gap-[8vw]"
-            style={{ color: project.theme.separator }}
-          >
-            <div className="text-center">
-              <h2 className="font-display text-[clamp(2.25rem,3.8vw,3.75rem)] leading-[0.9] tracking-[-0.045em]">
+      <section
+        className="bg-[#f1f1ef] px-6 py-16 md:px-[7vw] md:py-[4vw]"
+        id={`${project.slug}-project-information`}
+      >
+        <div
+          className="mx-auto grid max-w-[90rem] gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-[8vw]"
+          style={{ color: informationColor }}
+        >
+          <div className="flex flex-col items-end">
+            <h2
+              className={cn(
+                "font-display leading-[0.9] tracking-[-0.055em] uppercase",
+                informationHeadingSize,
+              )}
+            >
+              <span
+                className="inline-block px-[0.18em] py-[0.12em] whitespace-nowrap text-[#f1f1ef]"
+                style={{ backgroundColor: informationColor }}
+              >
+                {project.headline}
+              </span>
+            </h2>
+            <div className="mt-10 flex w-full flex-col items-end text-right text-[clamp(1rem,1.35vw,1.5rem)] leading-[1.5]">
+              <div className="order-2 mt-6 flex flex-col items-end gap-2 lg:order-1 lg:mt-0 lg:mb-2">
+                <p className="bg-white px-1 leading-none italic">
+                  {informationDate}
+                </p>
+                {project.slug === "chocolate" ? (
+                  <p>{project.groups[0]?.eyebrow}</p>
+                ) : null}
+              </div>
+              <p className="order-1 w-[84%] max-w-[36rem] text-pretty lg:order-2 lg:w-full">
+                {project.summary}
+              </p>
+            </div>
+          </div>
+
+          {project.team?.length ? (
+            <div>
+              <h2
+                className={cn(
+                  "font-display leading-[0.9] tracking-[-0.055em] uppercase",
+                  informationHeadingSize,
+                )}
+              >
                 <span
-                  className="box-decoration-clone px-3 py-1.5 text-[#f1f1ef]"
-                  style={{ backgroundColor: project.theme.separator }}
+                  className="inline-block px-[0.18em] py-[0.12em] whitespace-nowrap text-[#f1f1ef]"
+                  style={{ backgroundColor: informationColor }}
                 >
-                  {project.headline}
+                  {project.slug === "chocolate" ? "Meet The Team" : "The Team"}
                 </span>
               </h2>
-              <div className="mx-auto mt-10 max-w-2xl space-y-4 text-base leading-relaxed">
-                <p className="italic">{project.date}</p>
-                <p>{project.groups[0]?.eyebrow}</p>
-                <p>{project.summary}</p>
-              </div>
+              <ul className="mt-5 space-y-1 text-[clamp(0.875rem,1.35vw,1.5rem)] leading-[1.5] lg:mt-8">
+                {project.team.map((member) => {
+                  const [role, ...names] = member.split(": ");
+                  return (
+                    <li key={member}>
+                      <strong>{role}:</strong> {names.join(": ")}
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-
-            {project.team?.length ? (
-              <div>
-                <h2 className="text-center font-display text-[clamp(2.25rem,3.8vw,3.75rem)] leading-[0.9] tracking-[-0.045em]">
-                  <span
-                    className="box-decoration-clone px-3 py-1.5 text-[#f1f1ef]"
-                    style={{ backgroundColor: project.theme.separator }}
-                  >
-                    Meet The Team
-                  </span>
-                </h2>
-                <ul className="mx-auto mt-10 max-w-lg space-y-1.5 text-sm leading-relaxed md:text-base">
-                  {project.team.map((member) => {
-                    const [role, ...names] = member.split(": ");
-                    return (
-                      <li key={member}>
-                        <strong>{role}:</strong> {names.join(": ")}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-        ) : (
-          <div className="mx-auto grid max-w-[74rem] gap-10 md:grid-cols-2 md:gap-[8vw]">
-            <div>
-              <h2 className="font-display text-[clamp(4rem,7vw,7rem)] leading-[0.9] tracking-[-0.055em]">
-                {project.headline}
-              </h2>
-              <div className="mt-8 max-w-md space-y-4 text-base leading-relaxed">
-                <p className="italic">April 2024</p>
-                <p>{project.summary}</p>
-              </div>
-            </div>
-
-            {project.team?.length ? (
-              <div>
-                <h2 className="font-display text-[clamp(3.5rem,6vw,6rem)] leading-[0.9] tracking-[-0.055em]">
-                  The Team
-                </h2>
-                <ul className="mt-8 space-y-1.5 text-sm leading-relaxed md:text-base">
-                  {project.team.map((member) => {
-                    const [role, ...names] = member.split(": ");
-                    return (
-                      <li key={member}>
-                        <strong>{role}:</strong> {names.join(": ")}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-        )}
+          ) : null}
+        </div>
       </section>
 
-      <ProjectSeparator color={project.theme.separator} />
+      <ProjectSeparator {...separator} />
 
       {sourceItems.length ? (
         <>
@@ -483,13 +487,13 @@ function GalleryProjectPage({
               variant="sources"
             />
           </section>
-          <ProjectSeparator color={project.theme.separator} />
+          <ProjectSeparator {...separator} />
         </>
       ) : null}
 
       {productGroup ? (
         <>
-          <section className="bg-[#f1f1ef] px-6 pb-24 md:px-[7vw] md:pb-[8vw]">
+          <section className="bg-[#f1f1ef] px-6 py-24 md:px-[7vw] md:py-[8vw]">
             <div className="mx-auto grid max-w-[78rem] gap-12 md:grid-cols-2 md:gap-[5vw]">
               {[...productGroup.media].reverse().map((media) => {
                 if (!isPlayableMedia(media) || media.mediaType !== "gif") {
@@ -507,7 +511,7 @@ function GalleryProjectPage({
                     </h3>
                     <Image
                       alt={`${media.label} animated product module`}
-                      className="h-auto w-full object-contain"
+                      className="aspect-video w-full object-cover"
                       height={720}
                       src={media.src ?? ""}
                       unoptimized
@@ -531,7 +535,7 @@ function GalleryProjectPage({
               })}
             </div>
           </section>
-          <ProjectSeparator color={project.theme.separator} />
+          <ProjectSeparator {...separator} />
         </>
       ) : null}
 

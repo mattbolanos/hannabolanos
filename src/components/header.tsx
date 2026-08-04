@@ -24,18 +24,14 @@ function Header() {
     pathname === "/about" ||
     pathname.startsWith("/brandwork/") ||
     pathname.startsWith("/journalism/");
-  const usesDarkHeader = pathname === "/brandwork/mcdonalds";
 
   return (
     <header
       className={cn(
         "font-heading z-20",
         isOverlayPage
-          ? cn(
-              "absolute inset-x-0 top-0 bg-transparent",
-              usesDarkHeader ? "text-black" : "text-white",
-            )
-          : "bg-background sticky top-0 md:bg-background/60 md:backdrop-blur-2xl",
+          ? cn("absolute inset-x-0 top-0 bg-transparent", "text-white")
+          : "bg-background md:bg-background/60 sticky top-0 md:backdrop-blur-2xl",
       )}
     >
       <div className="mx-auto hidden max-w-7xl items-center px-5 py-7 md:flex">
