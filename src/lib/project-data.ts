@@ -14,6 +14,7 @@ interface ProjectPlaceholder {
   kind: "placeholder";
   mediaType: "audio" | "gif" | "video";
   label: string;
+  src?: string;
   detail?: string;
   aspect?: ImageAspect;
 }
@@ -208,7 +209,7 @@ const BRAND_PROJECTS = [
     headline: "Chocolate Protein",
     date: "November 2025",
     summary:
-      "Introducing Ritual’s plant-based, traceably sourced protein—now in rich, creamy chocolate. Whether you’re dominating the court or just trying to make it until lunchtime, the campaign powers every serve without asking anyone to choose between essential quality and great taste.",
+      "Introducing Ritual’s plant-based, traceably sourced protein—now in rich, creamy chocolate. Whether you’re dominating the court, or just trying to make it until lunchtime, we’re powering your every serve. Because no one should have to choose between essential quality and great taste.",
     groups: [
       {
         title: "Launch film",
@@ -218,7 +219,7 @@ const BRAND_PROJECTS = [
             kind: "placeholder",
             mediaType: "video",
             label: "Chocolate Protein launch film",
-            detail: "Video placeholder",
+            src: "/projects/brandwork/chocolate/launch-film.mp4",
             aspect: "wide",
           },
         ],
@@ -282,11 +283,11 @@ const BRAND_PROJECTS = [
       "Art Direction: Meria Ogawa",
       "Concept: Michael Arrietta",
       "VP Creative: Fiel Valdez",
-      "Senior Art Direction: Sam Danan",
+      "Senior AD: Sam Danan",
       "Production: Hanna Bolaños, Oui Productions",
       "Video: Erynn Lamont",
-      "Set & Prop Design: Shelby Kay Reed",
-      "Hair & Makeup: Amber Rose",
+      "Set/Prop Design: Shelby Kay Reed",
+      "HMU: Amber Rose",
       "Wardrobe: Sarah Rose",
       "Video Editing: Peter Quinn & Vidhan Chawla",
     ],
@@ -297,7 +298,7 @@ const BRAND_PROJECTS = [
       accentForeground: "#211a17",
       soft: "#f4f0ea",
       softForeground: "#211a17",
-      separator: "#d6a227",
+      separator: "#7a3f00",
       overlay: "#253551b8",
     },
     nextSlug: "ritual",
@@ -309,7 +310,7 @@ const BRAND_PROJECTS = [
     headline: "In The Wild",
     date: "April 2024–May 2025",
     summary:
-      "A fresh, sunny, lo-fi shoot of Ritual products captured in an east-side Los Angeles home. The work has lived across email, organic social, growth advertising, collateral, Ritual.com, PR and company events.",
+      "A fresh, sunny, lo-fi shoot of various Ritual products captured in an east-side Los Angeles home. Content has been used across email marketing, organic social, growth advertising, collateral, Ritual.com, PR and company events.",
     groups: [
       {
         title: "In The Wild",
@@ -331,7 +332,7 @@ const BRAND_PROJECTS = [
             category: "Growth",
             caption: "February 2025",
             description:
-              "A gut-health campaign introducing Synbiotic+ as the daily ritual that supports digestion, immunity and regularity.",
+              "A 360° love-themed campaign about gut health, starring Ritual’s Synbiotic+ because true love means going #2 around your #1.",
             aspect: "portrait",
           },
           {
@@ -341,7 +342,7 @@ const BRAND_PROJECTS = [
             category: "Social",
             caption: "April 2024",
             description:
-              "Organic social celebrating Essential Prenatal as the bestselling prenatal multivitamin on Ritual.com.",
+              "Instagram campaign to celebrate Ritual’s clinically-backed Essential Prenatal vitamin becoming the number one bestselling prenatal in the U.S.",
             aspect: "portrait",
           },
           {
@@ -351,7 +352,7 @@ const BRAND_PROJECTS = [
             category: "Email",
             caption: "December 2024",
             description:
-              "A lifecycle campaign positioning the New Year sale as a simple way to start—and keep—a better daily ritual.",
+              "Email campaign for Ritual’s signature New Year Sale, made to remind you that taking care of yourself is better than reinvention.",
             aspect: "portrait",
           },
           {
@@ -361,7 +362,7 @@ const BRAND_PROJECTS = [
             category: "Growth",
             caption: "May 2025",
             description:
-              "A Mother’s Day campaign built around the rituals that care for moms at every stage.",
+              "Targeted growth asset for Ritual’s yearly Mother’s Day Sale, aimed at giving moms the science-backed support they need to thrive.",
             aspect: "portrait",
           },
         ],
@@ -374,14 +375,14 @@ const BRAND_PROJECTS = [
             kind: "placeholder",
             mediaType: "gif",
             label: "Essential for Men 18+",
-            detail: "Animated product module placeholder",
+            src: "/projects/brandwork/ritual/essential-men.gif",
             aspect: "square",
           },
           {
             kind: "placeholder",
             mediaType: "gif",
             label: "Pregnancy Bundle",
-            detail: "Animated product module placeholder",
+            src: "/projects/brandwork/ritual/pregnancy-bundle.gif",
             aspect: "square",
           },
         ],
@@ -404,7 +405,7 @@ const BRAND_PROJECTS = [
       accentForeground: "#253551",
       soft: "#f1f1ef",
       softForeground: "#171717",
-      separator: "#b9d232",
+      separator: "#fae400",
       overlay: "#253551b8",
     },
     links: [
@@ -429,21 +430,21 @@ const BRAND_PROJECTS = [
         kind: "placeholder",
         mediaType: "video",
         label: "Gen X · Hip-Hop",
-        detail: "0:30 animated film placeholder",
+        src: "/projects/brandwork/liquid-iv/gen-x.mp4",
         aspect: "landscape",
       },
       {
         kind: "placeholder",
         mediaType: "video",
         label: "Millennials · Pop",
-        detail: "0:30 animated film placeholder",
+        src: "/projects/brandwork/liquid-iv/millennials.mp4",
         aspect: "landscape",
       },
       {
         kind: "placeholder",
         mediaType: "video",
         label: "Gen Z · Indie Rock",
-        detail: "0:30 animated film placeholder",
+        src: "/projects/brandwork/liquid-iv/gen-z.mp4",
         aspect: "landscape",
       },
     ],
@@ -451,16 +452,19 @@ const BRAND_PROJECTS = [
       {
         title: "The Ask",
         paragraphs: [
-          "Liquid I.V. wanted to grow national awareness for its Hydration Multiplier across Gen X, Millennial and Gen Z audiences by leaning into generational music tastes and animated visual storytelling.",
+          "Liquid I.V. wanted to grow national product awareness for their Hydration Multiplier across Gen X, Millennial and Gen Z audiences by leaning into generational music tastes and compelling animated visuals.",
         ],
       },
       {
         title: "The Execution",
         paragraphs: [
-          "I produced three 0:30 animated videos that illustrate how life looks and feels before drinking Liquid I.V.—and how it transforms after.",
-          "I pitched the concept, wrote three distinct scripts, sourced the animation studio, built the budget, managed the timeline, directed voice talent and edited the audio tracks.",
-          "Each film pairs a generational audience with a custom track inspired by its most-streamed Spotify genre. Muted palettes and lo-fi sound open every spot; color and music bloom as soon as the character hydrates.",
-          "The client increased its Spotify media spend following the campaign and reposted the films across its social channels.",
+          "I produced 3x 0:30s animated videos, illustrating how life looks and feels before drinking Liquid I.V. and after.",
+          "I pitched the creative concept and wrote three distinct video scripts, incorporating Liquid I.V.’s brand messaging and desired storylines.",
+          "I sourced the animation studio, built our budget, managed the timeline and addressed all client feedback. I directed the voice talent, recorded the audio and cut the audio tracks. I also managed communications with the client throughout the campaign.",
+          "Each video targets 1 generational audience and features a corresponding custom music track inspired by each generation’s most streamed genre on Spotify.",
+          "The videos begin with muted color palettes and low quality sound, mimicking dehydration. Once a character drinks a glass of Liquid I.V., the scene transforms. The colors get brighter and the music tracks fill out.",
+          "The result is a comprehensive sonic-visual experience, positioning Liquid I.V. as the #1 hydrator across multiple consumer sets.",
+          "The client increased their media spend with Spotify following the release of this campaign and reposted the videos on their social channels.",
         ],
       },
     ],
@@ -522,8 +526,9 @@ const BRAND_PROJECTS = [
       {
         title: "The Execution",
         paragraphs: [
-          "I worked with artist relations to book rising Puerto Rican reggaeton star Myke Towers, pitched the treatment to Starbucks, wrote the interview questions and spoke with Towers about his family, hometown, influences and career.",
-          "I edited the hour-long interview into six short clips placed throughout a playlist Towers created, letting listeners hear his story alongside the tracks that shaped him.",
+          "I worked with our artist relations team to book rising Puerto Rican reggaeton star Myke Towers to be the face of this collaboration.",
+          "I pitched the creative treatment to Starbucks, wrote the interview questions and spoke with Towers for an hour about his family, hometown, what inspires him, his advice for aspiring artists and his career so far.",
+          "I edited the interview into 6x 2–3:00 minute clips, which we placed throughout a playlist Towers created. You can listen to his story alongside the tracks that’ve made him who he is today on Spotify at the link above.",
         ],
       },
     ],
@@ -559,14 +564,14 @@ const BRAND_PROJECTS = [
         kind: "placeholder",
         mediaType: "audio",
         label: "Amazon × Doechii 1",
-        detail: "Audio player placeholder",
+        src: "/projects/brandwork/amazon/doechii-1.mp3",
         aspect: "wide",
       },
       {
         kind: "placeholder",
         mediaType: "audio",
         label: "Amazon × Doechii 2",
-        detail: "Audio player placeholder",
+        src: "/projects/brandwork/amazon/doechii-2.mp3",
         aspect: "wide",
       },
     ],
@@ -574,14 +579,16 @@ const BRAND_PROJECTS = [
       {
         title: "The Ask",
         paragraphs: [
-          "Amazon wanted a custom multimedia campaign around “Whatever You’re Into, It’s On Prime”—a celebration of the many ways people use Amazon to get more out of their passions.",
+          "Amazon wanted to create a custom multimedia campaign around the tagline “Whatever You’re Into, It’s On Prime,” a celebration of the many ways people can engage with Amazon to get more out of their passions.",
         ],
       },
       {
         title: "The Execution",
         paragraphs: [
-          "I helped win the business by pitching a collaboration with an emerging musical artist whose wide-ranging interests embodied the line, then worked with artist relations to book Doechii for two 0:30 audio spots.",
-          "I wrote the treatment, interviewed Doechii, cut the final spots and oversaw post-production while managing the production budget, timelines and client communication.",
+          "I helped win the business for this campaign by pitching a collaboration with an emerging musical artist whose wide-ranging interests encapsulate Amazon’s tagline. I then worked with the artist relations team to book rising rapper Doechii for 2x 0:30s audio spots.",
+          "In addition to writing the treatment, I interviewed Doechii, cut the final spots and oversaw post-production.",
+          "I also built and managed our client-facing and internal timelines, as well as our production budget and client communications.",
+          "The final spots strike a great balance between Amazon’s campaign messaging and Doechii’s authentic responses, resulting in branded content that feels engaging and relatable.",
         ],
       },
     ],
@@ -617,7 +624,7 @@ const BRAND_PROJECTS = [
         kind: "placeholder",
         mediaType: "audio",
         label: "Pacifico × Dissect",
-        detail: "Audio player placeholder",
+        src: "/projects/brandwork/pacifico/dissect.mp3",
         aspect: "wide",
       },
     ],
@@ -631,13 +638,15 @@ const BRAND_PROJECTS = [
       {
         title: "The Execution",
         paragraphs: [
-          "Because Pacifico’s brand is about putting your own spin on things, I produced a spot about remixes. An original beat changes beneath host Cole Cuchna as he explains how creative work is transformed through reinterpretation.",
-          "The keyboard effect, drums, bass and guitar evolve in real time, blending the campaign message with Dissect’s identity for a fully immersive listening experience.",
+          "Pacifico’s brand is all about putting your own spin on things. Given Dissect’s ethos as a musical-analysis podcast, I produced an audio ad about remixes.",
+          "I worked with our audio engineer to create an original beat that gets remixed as the ad progresses. The spot begins with the crackling of vinyl on a turntable. We hear Dissect’s host Cole Cuchna explain how all music is derivative, and there’s great value in making something you love your own. As he narrates, the music changes. An effect is added to the keyboard, the drum and bass patterns shift, and the guitar line gets reversed, creating an entirely new beat before our ears.",
+          "The ad generates positive brand affinity for Pacifico by seamlessly blending its campaign messaging with the authentic identity of Dissect for a fully immersive and original listening experience.",
         ],
       },
     ],
     team: [
-      "Lead Producer & Creative Concepting: Hanna Bolaños",
+      "Lead Producer: Hanna Bolaños",
+      "Creative Concepting: Hanna Bolaños",
       "Audio Engineering & Sound Design: Robert Hann",
     ],
     theme: {
@@ -668,21 +677,21 @@ const BRAND_PROJECTS = [
         kind: "placeholder",
         mediaType: "audio",
         label: "LEGO × Disney",
-        detail: "Audio player placeholder",
+        src: "/projects/brandwork/lego/disney.mp3",
         aspect: "wide",
       },
       {
         kind: "placeholder",
         mediaType: "audio",
         label: "LEGO × Marvel",
-        detail: "Audio player placeholder",
+        src: "/projects/brandwork/lego/marvel.mp3",
         aspect: "wide",
       },
       {
         kind: "placeholder",
         mediaType: "audio",
-        label: "LEGO × Star Wars",
-        detail: "Audio player placeholder",
+        label: "Disney × Star Wars",
+        src: "/projects/brandwork/lego/star-wars.mp3",
         aspect: "wide",
       },
     ],
@@ -696,8 +705,10 @@ const BRAND_PROJECTS = [
       {
         title: "The Execution",
         paragraphs: [
-          "I produced three 0:30 spots, pitched the concept, wrote every script, sourced and directed the voice actors, selected takes, music and sound effects, and managed the timeline and budget.",
-          "Each spot builds a distinct sonic world around Disney, Marvel or Star Wars and ran inside a matching targeted Spotify playlist.",
+          "I produced 3x 0:30s audio spots that capture LEGO’s fun and imaginative nature. Narrated by voice talent, the ads share tips and tricks parents can use to inspire their kids to engage in imaginative play, while emphasizing LEGO as the perfect partner.",
+          "In addition to managing the timeline and budget, I pitched the creative concept to LEGO, scripted all 3 spots, sourced the voice actors and directed them during tapings. I selected the best cuts from each before handing the tracks off for post-production. I also selected the music and sound effects.",
+          "Each ad spotlights one of the following LEGO themes: Disney Princess, Marvel and Star Wars. The result is three distinct sonic worlds with conversational narration made to inspire our target audience.",
+          "Each ad ran within a matching targeted playlist on Spotify.",
         ],
       },
     ],
@@ -733,7 +744,7 @@ const BRAND_PROJECTS = [
         kind: "placeholder",
         mediaType: "audio",
         label: "McDonald’s × The Ringer Network",
-        detail: "0:30 audio spot placeholder",
+        src: "/projects/brandwork/mcdonalds/ringer.mp3",
         aspect: "wide",
       },
     ],
@@ -741,19 +752,22 @@ const BRAND_PROJECTS = [
       {
         title: "The Ask",
         paragraphs: [
-          "McDonald’s ran ads across Spotify’s Ringer Network around its Chicken McNuggets and wanted a playful story about the family dynamics that emerge around a McDonald’s feast.",
+          "McDonald’s ran a flight of ads across Spotify on the Ringer Network focused on their famous Chicken McNuggets. They wanted something playful and humorous that highlighted the family dynamics that come into play when enjoying a McDonald’s feast.",
         ],
       },
       {
         title: "The Execution",
         paragraphs: [
-          "I ideated, wrote, voiced and oversaw post for a 0:30 spot that builds—and ultimately releases—the tension of discovering one final McNugget at dinner.",
-          "Cheery narration and music turn primal as eyes lock and a fight seems imminent, before a second box restores peace. The ending returns to the bright opening mood and invites listeners to grab their own box.",
+          "I ideated, wrote, voiced and oversaw post for this 0:30 ad that uses custom sound design to create and ultimately alleviate the tension that arises when there’s only one more Chicken McNugget left at dinner.",
+          "The spot opens with an upbeat track and cheery narration, describing a wholesome family dinner with McDonald’s. Everything’s going swimmingly until the music suddenly becomes tense, primal.",
+          "The narration simultaneously shifts, as we learn that only one McNugget remains. The conversation stops, eyes lock, a fight is imminent! Until we learn there’s another McNugget box. Phew…",
+          "The ad ends with a return to the cheery music, encouraging listeners to grab their own box of McNuggets.",
         ],
       },
     ],
     team: [
-      "Lead Producer & Voice Talent: Hanna Bolaños",
+      "Lead Producer: Hanna Bolaños",
+      "Voice Talent: Hanna Bolaños",
       "Audio Engineering & Sound Design: Molly Bolten",
     ],
     theme: {
@@ -781,7 +795,7 @@ const JOURNALISM_PROJECTS = [
     quoteAttribution: "Susan Pinker",
     listenUrl:
       "https://www.npr.org/2020/04/24/842604367/susan-pinker-what-makes-social-connection-so-vital-to-our-well-being",
-    listenLabel: "Listen now",
+    listenLabel: "Listen Now",
     heroTone: "black",
     image: {
       kind: "image",
@@ -790,12 +804,11 @@ const JOURNALISM_PROJECTS = [
       aspect: "square",
     },
     story: [
-      "Humans are a naturally social species, but COVID-19 forced us into deeply unnatural isolation. Loneliness, however, was a problem long before social distancing became the norm.",
-      "In this hour-long episode of NPR’s TED Radio Hour, Jonny Sun, Susan Pinker, Grace Kim and Suleika Jaouad explore what loneliness looks and feels like—and how we can try to make peace with it.",
+      "Humans are a naturally social species, but COVID-19 forced us into deeply unnatural isolation. However, loneliness was a problem long before social distancing became the norm. In this hour-long episode of NPR’s TED Radio Hour, Jonny Sun, Susan Pinker, Grace Kim and Suleika Jaouad explore what loneliness looks and feels like, and how we can try to make peace with it.",
     ],
     production: [
-      "I produced Susan Pinker’s segment. She is the author of The Village Effect, a book about how face-to-face interactions are critical to happiness and long-term health.",
-      "I scripted interview questions for the host, recorded the interview and turned more than an hour of tape into a tight 20-minute segment. I also handled sound design and scoring.",
+      "I produced Susan Pinker’s segment in this episode. She’s the author of The Village Effect, a book that explores how face-to-face interactions are critical for our happiness and long-term health. She gave a TED Talk on the subject in 2017.",
+      "I scripted interview questions for our host, recorded the interview and turned 60+ minutes of tape into a tight 20-minute segment. I also did the sound design and scoring.",
     ],
     nextSlug: "burnout",
   },
@@ -809,7 +822,7 @@ const JOURNALISM_PROJECTS = [
     quoteAttribution: "Anne Helen Petersen",
     listenUrl:
       "https://www.npr.org/2019/06/26/736344196/dating-app-burnout-when-swiping-becomes-a-chore",
-    listenLabel: "Listen here",
+    listenLabel: "Listen Here",
     heroTone: "navy",
     image: {
       kind: "image",
@@ -818,11 +831,12 @@ const JOURNALISM_PROJECTS = [
       aspect: "square",
     },
     story: [
-      "While producing NPR’s All Things Considered in my early twenties, I was swiping through dating apps daily. Dating was supposed to be a break from work burnout, but it had started to feel like a second job—so I pitched a story about that connection.",
+      "When I was a producer for NPR’s All Things Considered, I was in my early 20s and swiping through dating apps daily. It was exhausting, almost like a second job. I thought dating would be a reprieve from the burnout I was experiencing from work, but actually…it was contributing to it. I wanted to explore that connection, so I pitched this story.",
     ],
     production: [
-      "I wandered through downtown Washington, D.C. with a boom mic, interviewing people who used dating apps—including a couple on a first date who had met online.",
-      "Anne Helen Petersen’s reporting on burnout became the story’s structural backbone. The piece went through roughly 20 rounds of edits before it was ready for live radio; I reported, wrote, narrated, scored and cut the final product.",
+      "I wandered through downtown Washington, D.C. on a Tuesday night, boom mic in hand, popping in and out of neighborhood bars, interviewing people who use dating apps. It was weird, hilarious and super fun. I chuckled at everyone eyeing my over-ear headphones and bulky radio equipment, smushed up against yuppies in collared shirts with full steins in hand. To my delight, people were very willing to share their stories. I even found a couple on a first date who had met online.",
+      "I also interviewed Anne Helen Petersen, a writer and journalist who wrote a viral article about burnout for BuzzFeed in 2019. According to her, burnout is not exhaustion you can fix with vacation. Instead, she calls burnout society’s base temperature. We turn things that aren’t work into work. Her interview served as the story’s structural backbone.",
+      "The piece went through roughly 20 rounds of edits prior to becoming live-radio ready. I reported, wrote, narrated, scored and cut the final product.",
     ],
     nextSlug: "epstein",
   },
@@ -835,7 +849,7 @@ const JOURNALISM_PROJECTS = [
     quoteAttribution: "Chauntae Davies",
     listenUrl:
       "https://www.npr.org/2019/09/02/756823299/chauntae-davies-describes-coming-forward-as-epstein-accuser",
-    listenLabel: "Listen now",
+    listenLabel: "Listen Now",
     heroTone: "black",
     image: {
       kind: "image",
@@ -844,11 +858,11 @@ const JOURNALISM_PROJECTS = [
       aspect: "square",
     },
     story: [
-      "After Jeffrey Epstein’s death, more emerged about how he recruited the young women and girls he was accused of abusing and assaulting. Before the federal case was dismissed, a judge allowed Epstein’s accusers to testify in court. We spoke with one of them, actress Chauntae Davies.",
+      "In the aftermath of financier Jeffrey Epstein’s death, we learned more about how he recruited the young women and girls he was accused of sexually abusing and assaulting. Before his federal case was dismissed, the judge allowed Epstein’s accusers to testify in court. We spoke with one of them—an actress named Chauntae Davies.",
     ],
     production: [
-      "Given the delicate subject, I advised the host to invite Ms. Davies to tell her story from start to finish instead of following a rigid list of questions. The two spoke for an hour, giving her time and space to be heard.",
-      "I oversaw the recording and edited the conversation from 60 minutes to eight in roughly three hours. It remains one of the most challenging and rewarding edits of my career.",
+      "Typically before an interview, the producer conducts research and provides the host with questions to prepare. However, given the delicate subject matter, I advised my host to simply ask Ms. Davies to tell her story from start to finish. Typically hosts only spend about 30 minutes on an interview as they record multiple each day, but the two spoke for an hour. Ms. Davies felt heard as she was given the time and space to speak freely. I’m grateful to have been a part of giving her that platform, and I’m very proud to have produced this story.",
+      "I oversaw the recording and edited the conversation from 60 minutes down to 8 in about 3 hours. It remains one of the most challenging and rewarding edits of my career.",
     ],
     nextSlug: "oldfriend",
   },
@@ -862,7 +876,7 @@ const JOURNALISM_PROJECTS = [
     quoteAttribution: "Kirsten Leimroth",
     listenUrl:
       "https://www.npr.org/2018/09/21/650508344/friend-of-christine-blasey-ford-says-she-struggled-months-before-she-came-forwar",
-    listenLabel: "Listen now",
+    listenLabel: "Listen Now",
     heroTone: "black",
     image: {
       kind: "image",
@@ -871,11 +885,12 @@ const JOURNALISM_PROJECTS = [
       aspect: "square",
     },
     story: [
-      "When Christine Blasey Ford accused then-Supreme Court nominee Brett Kavanaugh of sexual assault, she was thrust into a spotlight she never wanted. NPR needed a human angle, and if an interview with Blasey Ford was not possible, the next best thing was someone who knew her well.",
-      "I found Kirsten Leimroth, a longtime friend who was willing to speak with us about Blasey Ford’s character and thinking.",
+      "When Christine Blasey Ford accused then-Supreme Court nominee Judge Brett Kavanaugh of sexual assault in 2018, she was immediately thrust into the spotlight, somewhere she never wanted to be. Everyone was eager to learn her intentions as negotiations over whether she would testify before the Senate Judiciary Committee began.",
+      "NPR was looking for a human angle to this story. If interviewing Blasey Ford wasn’t possible, finding someone who knew her well was the next best thing. I soon found Kirsten Leimroth, a longtime friend of Blasey Ford’s who was willing to speak with us about her.",
     ],
     production: [
-      "I produced the story in one day. Once Leimroth committed, I prepared the host, recorded the interview and turned 45 minutes of tape into a tight seven-minute piece in about two hours for air.",
+      "I produced this story in one day. Finding and booking the guest was the most challenging part, followed by the edit.",
+      "Once Leimroth committed to the interview, I prepared my host, recorded the interview and turned 45 minutes of tape into a tight 7 in 2 hours for air. Leimroth gave us a great understanding of Blasey Ford’s thought process behind coming forward, as well as her character. This is one of my most crucial bookings, and I’m proud of the edit as well.",
     ],
     nextSlug: "cuban",
   },
@@ -888,7 +903,7 @@ const JOURNALISM_PROJECTS = [
     quoteAttribution: "Andrea Gonzmart",
     listenUrl:
       "https://www.npr.org/2019/05/14/723325930/new-york-times-crossword-clue-creates-chaos-for-cuban-sandwich-fans",
-    listenLabel: "Listen now",
+    listenLabel: "Listen Now",
     heroTone: "black",
     image: {
       kind: "image",
@@ -897,11 +912,12 @@ const JOURNALISM_PROJECTS = [
       aspect: "square",
     },
     story: [
-      "A New York Times crossword called Tampa “a city famous for its Cuban sandwiches.” Plenty of people felt the answer should have been Miami, reigniting the age-old question: which city makes the best Cuban sandwich?",
+      "In May 2019, a New York Times crossword puzzle published this clue: “A city famous for its Cuban sandwiches.” The answer was Tampa, but many people felt it should have been Miami. And so, an age-old beef (ha!) was reignited: which city has the best Cuban sammies?",
     ],
     production: [
-      "I found two experts—Ricardo Morales of Old’s Havana Cuban Bar and Cocina in Miami, and Andrea Gonzmart of Tampa’s Columbia Restaurant—then asked each to make the case for their city’s sandwich.",
-      "I cut the tape, wrote the script and interviewed New York Times puzzlemaster Will Shortz for accountability. Short pieces can be some of the hardest to make work; this one was also a delight.",
+      "I kicked this story off by finding two Cuban sandwich experts: Ricardo Morales of Old’s Havana Cuban Bar and Cocina in Miami, and Andrea Gonzmart, owner of the Columbia Restaurant in Tampa. I asked both of them why their city’s version of the sammie is superior, cut the tape, wrote the script and off it went to air.",
+      "I also interviewed New York Times puzzlemaster Will Shortz for accountability purposes, but he insisted on staying neutral.",
+      "This was an incredibly fun piece to produce and don’t let the run time fool you—sometimes short pieces are the hardest to do well.",
     ],
     nextSlug: "flan",
   },
@@ -909,13 +925,13 @@ const JOURNALISM_PROJECTS = [
     slug: "flan",
     title: "Kentucky Fried Flan",
     source: "NPR’s All Things Considered",
-    date: "July 26, 2019",
+    date: "May 14, 2019",
     quote:
       "Excuse me, are you going to buy any chicken? No, I just want the flan.",
     quoteAttribution: "Claudia Bovea",
     listenUrl:
       "https://www.npr.org/2019/07/26/745731848/this-is-the-only-kentucky-fried-chicken-that-serves-house-made-flan",
-    listenLabel: "Listen now",
+    listenLabel: "Listen Now",
     heroTone: "black",
     image: {
       kind: "image",
@@ -924,11 +940,12 @@ const JOURNALISM_PROJECTS = [
       aspect: "square",
     },
     story: [
-      "A KFC in Hialeah, Florida is the only KFC in the world that bakes its own flan. The secret recipe came from a chef who immigrated to the United States from Cuba and has stayed in-house ever since.",
+      "When NPR learned that a KFC in Hialeah, Florida was the only KFC in the world that bakes its own flan, we had to give them a call. There are more than 21,000 KFCs in the world across more than 130 countries, but only one has this tasty, silky dessert on the menu. The secret recipe was invented by a chef who immigrated to the U.S. from Cuba. It’s been kept in-house ever since.",
     ],
     production: [
-      "Owner Dan Yagoda shared the flan’s origin story, and general manager Claudia Bovea described customers arriving with their own containers just to take extra home.",
-      "I recorded the interviews, wrote and tracked the script, and laid up the story for air on the same day—the result is a small, tantalizing piece for the afternoon drive.",
+      "I reached out to Dan Yagoda, the owner of the Hialeah KFC, and he was more than happy to share the flan’s origin story. Yagoda began cooking for the KFC when he was 23, and that’s where he met then-head chef Baldomero Gonzalez. Every once in a while, Gonzalez would make flan in the pressure cooker meant for frying chicken. Turns out, it makes the flan irresistible.",
+      "I also interviewed Claudia Bovea, the general manager of the Hialeah KFC. She spoke highly of the flan, sharing that people sometimes come with their own containers just to take extra home with them.",
+      "I recorded all the interviews, wrote the script, tracked it and laid up the story for air same-day. The result is a tantalizing little piece for your afternoon drive home.",
     ],
     nextSlug: "loneliness",
   },

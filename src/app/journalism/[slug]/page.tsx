@@ -37,11 +37,17 @@ export default async function JournalismProjectRoute({
     notFound();
   }
 
-  const nextProject = getJournalismProject(project.nextSlug);
+  const projectIndex = JOURNALISM_PROJECTS.findIndex(
+    (candidate) => candidate.slug === project.slug,
+  );
+  const previousProject = JOURNALISM_PROJECTS[projectIndex - 1];
+  const nextProject = JOURNALISM_PROJECTS[projectIndex + 1];
 
-  if (!nextProject) {
-    notFound();
-  }
-
-  return <JournalismProjectPage nextProject={nextProject} project={project} />;
+  return (
+    <JournalismProjectPage
+      nextProject={nextProject}
+      previousProject={previousProject}
+      project={project}
+    />
+  );
 }

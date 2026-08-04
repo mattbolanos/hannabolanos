@@ -23,6 +23,9 @@ const dynaPuff = DynaPuff({
 export const metadata: Metadata = {
   title: "HB",
   description: "Hanna Bolaños' personal website",
+  appleWebApp: {
+    title: "HB",
+  },
 };
 
 export default function RootLayout({

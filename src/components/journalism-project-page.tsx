@@ -1,88 +1,103 @@
-import Link from "next/link";
-import { ProjectMediaBlock } from "@/components/project-media";
+import Image from "next/image";
+import { ProjectNavigation } from "@/components/project-navigation";
 import type { JournalismProject } from "@/lib/project-data";
-import { cn } from "@/lib/utils";
 
 function JournalismProjectPage({
-  project,
   nextProject,
+  previousProject,
+  project,
 }: {
+  nextProject?: JournalismProject;
+  previousProject?: JournalismProject;
   project: JournalismProject;
-  nextProject: JournalismProject;
 }) {
+  const hasVisibleHeroImage =
+    project.slug === "epstein" || project.slug === "oldfriend";
+
   return (
-    <article className="relative left-1/2 w-screen -translate-x-1/2 bg-[#f1f1ef] text-white">
+    <article className="relative left-1/2 w-screen -translate-x-1/2 bg-[#253551] text-white">
       <header
-        className={cn(
-          "flex min-h-[33rem] flex-col items-center justify-center px-6 pt-32 pb-16 text-center md:min-h-[39rem] md:px-[8vw]",
-          project.heroTone === "black" ? "bg-black" : "bg-[#253551]",
-        )}
+        className={`relative isolate flex h-[31rem] flex-col items-center justify-center overflow-hidden px-6 pt-20 text-center md:h-[27.7vw] md:min-h-[25rem] ${
+          project.heroTone === "navy" ? "bg-[#253551]" : "bg-black"
+        }`}
       >
-        <p className="font-heading mb-8 text-xs tracking-[0.22em] uppercase text-white/55">
-          Journalism
-        </p>
-        <h1 className="font-heading max-w-6xl text-[clamp(2.7rem,6vw,6rem)] leading-[0.98] font-semibold tracking-[0.01em] uppercase">
+        {hasVisibleHeroImage ? (
+          <Image
+            alt={project.image.alt}
+            className="-z-20 object-cover"
+            fill
+            preload
+            sizes="100vw"
+            src={project.image.src}
+          />
+        ) : null}
+        {hasVisibleHeroImage ? (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-black/20"
+          />
+        ) : null}
+
+        <h1 className="font-heading max-w-6xl text-[clamp(2.7rem,4.6vw,4.6rem)] leading-[1.04] font-semibold tracking-[0.02em] uppercase">
           {project.title}
         </h1>
         <a
-          className="font-heading mt-12 inline-flex min-w-52 justify-center rounded-full bg-white px-8 py-4 text-sm text-black transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white motion-reduce:transition-none"
+          className="mt-12 inline-flex min-h-14 min-w-56 items-center justify-center rounded-full bg-white px-8 font-heading text-black shadow-[0_1px_0_oklch(0_0_0/0.08),0_8px_24px_oklch(0_0_0/0.1)] transition-transform duration-150 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white motion-reduce:transition-none"
           href={project.listenUrl}
           rel="noreferrer"
           target="_blank"
         >
-          {project.listenLabel} ↗
+          {project.listenLabel}
         </a>
       </header>
 
-      <section className="bg-[#253551] px-6 py-16 md:px-[6vw] md:py-24">
-        <div className="mx-auto grid max-w-[92rem] items-start gap-12 md:grid-cols-[1.15fr_0.85fr] md:gap-[8vw]">
-          <ProjectMediaBlock media={project.image} preload />
+      <section className="bg-[#253551] px-6 py-16 md:px-[7vw] md:py-[5.5vw]">
+        <div className="mx-auto grid max-w-[80rem] items-center gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-[8vw]">
+          <blockquote className="flex min-h-[22rem] flex-col justify-center rounded-3xl bg-white p-10 font-heading text-[#253551] shadow-[inset_0_0_0_1px_oklch(0_0_0/0.1)] md:p-14">
+            <p className="text-[clamp(1.75rem,2.7vw,2.7rem)] leading-[1.45]">
+              “{project.quote}”
+            </p>
+            <footer className="mt-5 text-right text-base font-semibold uppercase tracking-[0.04em] md:text-xl">
+              — {project.quoteAttribution}
+            </footer>
+          </blockquote>
 
           <div>
-            <div className="font-heading border-b border-white/45 pb-9 text-lg">
-              <p className="font-semibold underline decoration-white/50 decoration-2 underline-offset-3">
+            <div className="border-b border-white/55 pb-8 text-center font-heading text-lg">
+              <p className="font-semibold underline decoration-white/70 decoration-2 underline-offset-3">
                 As heard on {project.source}
               </p>
               <p className="mt-1">{project.date}</p>
             </div>
 
-            <blockquote className="border-b border-white/45 py-9">
-              <p className="font-heading text-[clamp(1.6rem,3vw,3rem)] leading-tight">
-                “{project.quote}”
-              </p>
-              <footer className="font-heading mt-5 text-xs tracking-[0.18em] uppercase text-white/60">
-                — {project.quoteAttribution}
-              </footer>
-            </blockquote>
-
-            <details className="group border-b border-white/45 py-2">
-              <summary className="font-heading flex cursor-pointer list-none items-center justify-between py-5 text-xl font-medium [&::-webkit-details-marker]:hidden">
-                The Story
+            <details className="group border-b border-white/55">
+              <summary className="flex min-h-24 cursor-pointer list-none items-center justify-between gap-6 py-5 font-heading text-lg font-medium [&::-webkit-details-marker]:hidden">
+                <span>The Story</span>
                 <span
                   aria-hidden="true"
-                  className="text-2xl transition-transform group-open:rotate-45 motion-reduce:transition-none"
+                  className="text-3xl font-light transition-transform duration-150 group-open:rotate-45 motion-reduce:transition-none"
                 >
                   +
                 </span>
               </summary>
-              <div className="space-y-4 pb-7 leading-relaxed text-white/78">
+              <div className="space-y-4 pb-8 leading-relaxed text-white/78">
                 {project.story.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
             </details>
 
-            <details className="group border-b border-white/45 py-2">
-              <summary className="font-heading flex cursor-pointer list-none items-center justify-between py-5 text-xl font-medium [&::-webkit-details-marker]:hidden">
-                The Production
+            <details className="group border-b border-white/55">
+              <summary className="flex min-h-24 cursor-pointer list-none items-center justify-between gap-6 py-5 font-heading text-lg font-medium [&::-webkit-details-marker]:hidden">
+                <span>The Production</span>
                 <span
                   aria-hidden="true"
-                  className="text-2xl transition-transform group-open:rotate-45 motion-reduce:transition-none"
+                  className="text-3xl font-light transition-transform duration-150 group-open:rotate-45 motion-reduce:transition-none"
                 >
                   +
                 </span>
               </summary>
-              <div className="space-y-4 pb-7 leading-relaxed text-white/78">
+              <div className="space-y-4 pb-8 leading-relaxed text-white/78">
                 {project.production.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -92,23 +107,25 @@ function JournalismProjectPage({
         </div>
       </section>
 
-      <Link
-        className="group flex min-h-44 items-center justify-between gap-8 bg-[#f1f1ef] px-6 py-12 text-[#191919] md:px-[6vw]"
-        href={`/journalism/${nextProject.slug}`}
-      >
-        <span className="font-heading text-xs tracking-[0.18em] uppercase opacity-55">
-          Next story
-        </span>
-        <span className="font-heading flex items-center gap-5 text-right text-2xl font-semibold uppercase md:text-4xl">
-          {nextProject.title}
-          <span
-            aria-hidden="true"
-            className="transition-transform duration-200 group-hover:translate-x-2 motion-reduce:transition-none"
-          >
-            →
-          </span>
-        </span>
-      </Link>
+      <ProjectNavigation
+        ariaLabel="More journalism"
+        nextProject={
+          nextProject
+            ? {
+                href: `/journalism/${nextProject.slug}`,
+                title: nextProject.title,
+              }
+            : undefined
+        }
+        previousProject={
+          previousProject
+            ? {
+                href: `/journalism/${previousProject.slug}`,
+                title: previousProject.title,
+              }
+            : undefined
+        }
+      />
     </article>
   );
 }

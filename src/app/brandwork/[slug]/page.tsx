@@ -40,11 +40,17 @@ export default async function BrandProjectRoute({
     notFound();
   }
 
-  const nextProject = getBrandProject(project.nextSlug);
+  const projectIndex = BRAND_PROJECTS.findIndex(
+    (candidate) => candidate.slug === project.slug,
+  );
+  const previousProject = BRAND_PROJECTS[projectIndex - 1];
+  const nextProject = BRAND_PROJECTS[projectIndex + 1];
 
-  if (!nextProject) {
-    notFound();
-  }
-
-  return <BrandProjectPage nextProject={nextProject} project={project} />;
+  return (
+    <BrandProjectPage
+      nextProject={nextProject}
+      previousProject={previousProject}
+      project={project}
+    />
+  );
 }
