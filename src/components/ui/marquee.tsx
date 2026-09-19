@@ -261,8 +261,7 @@ function useMarqueeContext(consumerName: string) {
 }
 
 interface MarqueeProps
-  extends React.ComponentProps<"div">,
-    useRender.ComponentProps<"div"> {
+  extends React.ComponentProps<"div">, useRender.ComponentProps<"div"> {
   side?: Side;
   dir?: Direction;
   speed?: number;
@@ -467,8 +466,7 @@ const marqueeContentVariants = cva(
 );
 
 interface MarqueeContentProps
-  extends React.ComponentProps<"div">,
-    useRender.ComponentProps<"div"> {}
+  extends React.ComponentProps<"div">, useRender.ComponentProps<"div"> {}
 
 function MarqueeContent(props: MarqueeContentProps) {
   const {
@@ -616,14 +614,13 @@ function MarqueeContent(props: MarqueeContentProps) {
 }
 
 interface MarqueeItemProps
-  extends React.ComponentProps<"div">,
-    useRender.ComponentProps<"div"> {}
+  extends React.ComponentProps<"div">, useRender.ComponentProps<"div"> {}
 
 function MarqueeItem({ className, render, ...itemProps }: MarqueeItemProps) {
   return useRender({
     defaultTagName: "div",
     props: mergeProps<"div">(
-      { className: cn("shrink-0 font-heading tracking-wide", className) },
+      { className: cn("shrink-0 font-heading", className) },
       itemProps,
     ),
     render,
@@ -633,7 +630,8 @@ function MarqueeItem({ className, render, ...itemProps }: MarqueeItemProps) {
 }
 
 interface MarqueeEdgeProps
-  extends VariantProps<typeof marqueeEdgeVariants>,
+  extends
+    VariantProps<typeof marqueeEdgeVariants>,
     React.ComponentProps<"div">,
     useRender.ComponentProps<"div"> {}
 

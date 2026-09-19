@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 function MarqueeText({ children }: { children: React.ReactNode }) {
   return (
-    <span className="font-display block text-[clamp(2.899rem,4.824vw,4.4325rem)] leading-[1.4] font-light tracking-tighter whitespace-nowrap">
+    <span className="font-display block text-[clamp(2.899rem,4.824vw,4.4325rem)] whitespace-nowrap [word-spacing:0.3em]">
       {children}
     </span>
   );
