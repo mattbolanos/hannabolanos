@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { BrandProjectPage } from "@/components/brand-project-page";
 import { BRAND_PROJECTS, getBrandProject } from "@/lib/project-data";
 
+export const instant = false;
+
 interface BrandProjectRouteProps {
   params: Promise<{ slug: string }>;
 }

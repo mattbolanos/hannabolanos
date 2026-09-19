@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DynaPuff, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
+import { IBM_Plex_Sans, Monoton, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { SocialLinks } from "@/components/social-links";
@@ -15,9 +15,10 @@ const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-sans",
 });
 
-const dynaPuff = DynaPuff({
+const monoton = Monoton({
   subsets: ["latin"],
   variable: "--font-display",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -42,7 +43,7 @@ export default function RootLayout({
         "font-sans",
         ibmPlexSans.variable,
         spaceGroteskHeading.variable,
-        dynaPuff.variable,
+        monoton.variable,
       )}
     >
       <body className="flex min-h-full flex-col">

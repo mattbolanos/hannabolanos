@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { JournalismProjectPage } from "@/components/journalism-project-page";
 import { getJournalismProject, JOURNALISM_PROJECTS } from "@/lib/project-data";
 
+export const instant = false;
+
 interface JournalismProjectRouteProps {
   params: Promise<{ slug: string }>;
 }
