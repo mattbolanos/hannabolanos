@@ -24,7 +24,7 @@ function ProjectNavigation({
     >
       {previousProject ? (
         <Link
-          className="group font-heading inline-flex items-center gap-1.5 justify-self-start py-2 text-sm leading-none font-semibold uppercase transition-opacity duration-150 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none md:text-lg"
+          className="group font-heading inline-flex max-w-full min-w-0 items-center gap-1.5 justify-self-start py-2 text-sm leading-none font-semibold uppercase transition-opacity duration-150 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none md:text-lg"
           href={previousProject.href}
         >
           <ChevronLeftIcon
@@ -32,7 +32,9 @@ function ProjectNavigation({
             className="size-6 shrink-0 transition-transform duration-150 group-hover:-translate-x-1 motion-reduce:transition-none sm:size-8"
             strokeWidth={2}
           />
-          <span>{previousProject.title}</span>
+          <span className="min-w-0 [overflow-wrap:anywhere]">
+            {previousProject.title}
+          </span>
         </Link>
       ) : (
         <span />
@@ -40,10 +42,12 @@ function ProjectNavigation({
 
       {nextProject ? (
         <Link
-          className="group font-heading inline-flex items-center gap-1.5 justify-self-end py-2 text-right text-sm leading-none font-semibold uppercase transition-opacity duration-150 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none md:text-lg"
+          className="group font-heading inline-flex max-w-full min-w-0 items-center gap-1.5 justify-self-end py-2 text-right text-sm leading-none font-semibold uppercase transition-opacity duration-150 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none md:text-lg"
           href={nextProject.href}
         >
-          <span>{nextProject.title}</span>
+          <span className="min-w-0 [overflow-wrap:anywhere]">
+            {nextProject.title}
+          </span>
           <ChevronRightIcon
             aria-hidden="true"
             className="size-6 shrink-0 transition-transform duration-150 group-hover:translate-x-1 motion-reduce:transition-none sm:size-8"

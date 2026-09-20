@@ -25,8 +25,8 @@ function isPlayableMedia(media: ProjectMedia): media is ProjectPlaceholder {
 function ProjectDetails({ project }: { project: CaseStudyBrandProject }) {
   return (
     <section className="bg-white px-6 py-16 text-[#253551] md:px-[7vw] md:py-[7vw]">
-      <div className="mx-auto grid max-w-[78rem] gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-[10vw]">
-        <h2 className="font-display max-w-[8ch] text-[clamp(4rem,7vw,7rem)] leading-[0.88] tracking-[-0.055em] uppercase">
+      <div className="mx-auto grid max-w-[78rem] grid-cols-1 gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-[10vw]">
+        <h2 className="font-display max-w-full text-[clamp(4rem,7vw,7rem)] leading-[1.15] tracking-[-0.055em] [overflow-wrap:anywhere] uppercase [word-spacing:0.25em] md:max-w-[8ch]">
           Project Details
         </h2>
 
@@ -114,7 +114,7 @@ function CaseStudyHero({ project }: { project: CaseStudyBrandProject }) {
       />
       <h1
         className={cn(
-          "font-display text-[clamp(4rem,8vw,7.5rem)] leading-[0.88] tracking-[-0.045em] text-white",
+          "font-display max-w-full min-w-0 text-[clamp(3rem,8vw,7.5rem)] leading-[1.1] tracking-[-0.045em] [overflow-wrap:anywhere] text-white [word-spacing:0.25em]",
           project.slug === "mcdonalds" && "bg-white px-5 py-2 text-[#253551]",
         )}
       >
@@ -247,7 +247,7 @@ function CaseStudyProjectPage({
         <StarbucksMedia project={project} />
       ) : (
         <section className="bg-[#253551] px-6 py-14 text-white md:px-[3vw] md:py-[4.5vw]">
-          <h2 className="font-heading mx-auto mb-12 max-w-[70rem] text-center text-[clamp(2rem,3.2vw,3rem)] leading-[1.35] font-bold uppercase">
+          <h2 className="font-heading mx-auto mb-12 max-w-[70rem] px-2 text-center text-[clamp(2rem,3.2vw,3rem)] leading-[1.35] font-bold [overflow-wrap:anywhere] uppercase">
             <span className="bg-white box-decoration-clone px-2 py-0.5 text-[#253551]">
               “{project.tagline}”
             </span>
@@ -342,12 +342,12 @@ function GalleryHero({ project }: { project: GalleryBrandProject }) {
       >
         <MarqueeContent>
           <MarqueeItem>
-            <span className="font-display block text-[clamp(5.5rem,10vw,10rem)] leading-none whitespace-nowrap">
+            <span className="font-display block text-[clamp(5.5rem,10vw,10rem)] leading-none whitespace-nowrap [word-spacing:0.25em]">
               Ritual
             </span>
           </MarqueeItem>
           <MarqueeItem>
-            <span className="font-display block text-[clamp(4rem,7vw,7rem)] leading-none">
+            <span className="font-display block text-[clamp(4rem,7vw,7rem)] leading-none [word-spacing:0.25em]">
               *
             </span>
           </MarqueeItem>
@@ -414,18 +414,18 @@ function GalleryProjectPage({
         id={`${project.slug}-project-information`}
       >
         <div
-          className="mx-auto grid max-w-[90rem] gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-[8vw]"
+          className="mx-auto grid max-w-[90rem] grid-cols-1 gap-10 [overflow-wrap:anywhere] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-[8vw]"
           style={{ color: informationColor }}
         >
-          <div className="flex flex-col items-end">
+          <div className="flex min-w-0 flex-col items-end text-right">
             <h2
               className={cn(
-                "font-display leading-[0.9] tracking-[-0.055em] uppercase",
+                "font-display w-fit max-w-full px-[0.18em] leading-[1.4] tracking-[-0.055em] uppercase [word-spacing:0.25em]",
                 informationHeadingSize,
               )}
             >
               <span
-                className="inline-block px-[0.18em] py-[0.12em] whitespace-nowrap text-[#f1f1ef]"
+                className="box-decoration-clone px-[0.18em] py-[0.12em] text-[#f1f1ef]"
                 style={{ backgroundColor: informationColor }}
               >
                 {project.headline}
@@ -440,7 +440,7 @@ function GalleryProjectPage({
                   <p>{project.groups[0]?.eyebrow}</p>
                 ) : null}
               </div>
-              <p className="order-1 w-[84%] max-w-[36rem] text-pretty lg:order-2 lg:w-full">
+              <p className="order-1 w-full max-w-[36rem] text-pretty lg:order-2">
                 {project.summary}
               </p>
             </div>
@@ -450,12 +450,12 @@ function GalleryProjectPage({
             <div>
               <h2
                 className={cn(
-                  "font-display leading-[0.9] tracking-[-0.055em] uppercase",
+                  "font-display w-fit max-w-full px-[0.18em] leading-[1.4] tracking-[-0.055em] uppercase [word-spacing:0.25em]",
                   informationHeadingSize,
                 )}
               >
                 <span
-                  className="inline-block px-[0.18em] py-[0.12em] whitespace-nowrap text-[#f1f1ef]"
+                  className="box-decoration-clone px-[0.18em] py-[0.12em] text-[#f1f1ef]"
                   style={{ backgroundColor: informationColor }}
                 >
                   {project.slug === "chocolate" ? "Meet The Team" : "The Team"}
